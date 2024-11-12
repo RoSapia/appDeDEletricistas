@@ -1,37 +1,37 @@
 # global options
 {
-    admin off # there's no need for the admin API in Railway's environment
-    persist_config off # storage isn't persistent anyway
-    auto_https off # Railway handles HTTPS for us, this would cause issues if left enabled
-    # runtime logs
-    log {
-        format json # set runtime log format to JSON mode
-    }
-    # server options
-    servers {
-        trusted_proxies static private_ranges 100.0.0.0/8 # trust Railway's proxy
-    }
+	admin off # there's no need for the admin API in Railway's environment
+	persist_config off # storage isn't persistent anyway
+	auto_https off # Railway handles HTTPS for us, this would cause issues if left enabled
+	# runtime logs
+	log {
+		format json # set runtime log format to JSON mode
+	}
+	# server options
+	servers {
+		trusted_proxies static private_ranges 100.0.0.0/8 # trust Railway's proxy
+	}
 }
 
 # site block, listens on the $PORT environment variable, automatically assigned by Railway
 :{$PORT:3000} {
-    # access logs
-    log {
-        format json # set access log format to JSON mode
-    }
+	# access logs
+	log {
+		format json # set access log format to JSON mode
+	}
 
-    # health check for Railway
-    respond /health 200
+	# health check for Railway
+	respond /health 200
 
-    # serve from the 'dist' folder (Vite builds into the 'dist' folder)
-    root * dist
+	# serve from the 'dist' folder (Vite builds into the 'dist' folder)
+	root * dist
 
-    # enable gzipping responses
-    encode gzip
+	# enable gzipping responses
+	encode gzip
 
-    # serve files from 'dist'
-    file_server
+	# serve files from 'dist'
+	file_server
 
-    # if path doesn't exist, redirect it to 'index.js' for client-side routing
-    try_files {path} /index.js
+	# if path doesn't exist, redirect it to 'index.js' for client-side routing
+	try_files {path} /index.js
 }
